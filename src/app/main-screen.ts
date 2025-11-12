@@ -12,7 +12,7 @@ import {NgStyle} from '@angular/common';
     NgStyle
   ],
   template: `
-    <div class="flex h-screen flex-col items-center justify-center">
+    <div class="flex flex-col items-center justify-center">
       <div class="flex flex-col">
         <label class="font-bold pb-3">
           Matrix
