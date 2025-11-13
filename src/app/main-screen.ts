@@ -22,7 +22,8 @@ import {Latex} from './latex';
                      (outlineCalculated)="newOutline($event)" (selectedChange)="newSelectionByUser($event)"
                      (draggingStateChanged)="reset()"/>
         <div>
-          <button class="justify-self-start" mat-button="filled" (click)="play()" [disabled]="playing">
+          <button class="justify-self-start" mat-button="filled" (click)="play()"
+                  [disabled]="playing||selected().row>=5">
             <mat-icon>play_arrow</mat-icon>
             Play
           </button>
