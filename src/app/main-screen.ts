@@ -19,7 +19,7 @@ import {Latex} from './latex';
         </label>
         <matrix-grid [(matrix)]="matrix" [interactable]="!playing" [(selected)]="selected"
                      (outlineCalculated)="newOutline($event)" (selectedChange)="newSelectionByUser($event)"
-                     (draggingStateChanged)="reset()"/>
+                     (draggingStateChanged)="resetFull()"/>
         <div>
           <button class="justify-self-start" mat-button="filled" (click)="play()"
                   [disabled]="playing||selected().row>=5">
@@ -91,6 +91,12 @@ export class MainScreen {
   }
 
   protected readonly ifNull = ifNull;
+
+  resetFull() {
+    this.a = [null, null, null];
+    this.b = [null, null, null];
+    this.result = "";
+  }
 
   reset() {
     this.a = [this.matrix[this.selected().row % 3][this.selected().col % 3], null, null];
