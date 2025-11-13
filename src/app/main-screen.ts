@@ -13,8 +13,7 @@ import {Latex} from './latex';
     Latex
   ],
   template: `
-    <div class="flex flex-col items-center justify-center">
-      <div class="flex flex-col">
+    <div class="flex flex-col items-center justify-center overflow-hidden">
         <label class="font-bold pb-3">
           Matrix Determinant
         </label>
@@ -33,7 +32,6 @@ import {Latex} from './latex';
                     &{{ ifNull(a[0]?.toString(), '?') }}\\times{{ toLatexMatrix(b[0]) }}+{{  ifNull(a[1]?.toString(), '?') }}\\times{{ toLatexMatrix(b[1]) }}+{{ ifNull(a[2]?.toString(), '?') }}\\times{{ toLatexMatrix(b[2]) }}\\\\
                     {{result}}
                 \\end{aligned}"/>
-      </div>
     </div>
   `,
 })
