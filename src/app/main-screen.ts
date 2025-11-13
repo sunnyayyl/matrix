@@ -1,5 +1,5 @@
 import {Component, model} from '@angular/core';
-import {add, MatrixGrid, Pos} from './matrix-grid';
+import {add, calculateOutline, MatrixGrid, Pos} from './matrix-grid';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {Latex} from './latex';
@@ -29,7 +29,7 @@ import {Latex} from './latex';
         </div>
         <latex
           math="\\begin{aligned}
-                    &{{ a[0] || '?' }}\\times{{ toLatexMatrix(b[0]) }}+{{ a[1]|| '?' }}\\times{{ toLatexMatrix(b[1]) }}+{{ a[2]|| '?' }}\\times{{ toLatexMatrix(b[2]) }}\\\\
+                    &{{ ifNull(a[0]?.toString(), '?') }}\\times{{ toLatexMatrix(b[0]) }}+{{  ifNull(a[1]?.toString(), '?') }}\\times{{ toLatexMatrix(b[1]) }}+{{ ifNull(a[2]?.toString(), '?') }}\\times{{ toLatexMatrix(b[2]) }}\\\\
                     {{result}}
                 \\end{aligned}"/>
       </div>
@@ -91,9 +91,11 @@ export class MainScreen {
     return ""
   }
 
+  protected readonly ifNull = ifNull;
+
   reset() {
-    this.a = [this.a[0], null, null];
-    this.b = [this.b[0], null, null];
+    this.a = [this.matrix[this.selected().row % 3][this.selected().col % 3], null, null];
+    this.b = [calculateOutline(this.selected(), this.matrix), null, null];
     this.result = "";
   }
 }
@@ -127,4 +129,11 @@ function toLatexMatrix(matrix: { pos: Pos, value: number }[][] | null): string {
     result += "\\\\";
   }
   return result + "\\end{bmatrix}";
+}
+
+function ifNull<T>(v: T | null, replacement: T): T {
+  if (v === null) {
+    return replacement;
+  }
+  return v;
 }

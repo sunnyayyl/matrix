@@ -42,20 +42,7 @@ export class MatrixGrid {
     if (this.dragging) {
       return null
     }
-    const outlined: { pos: Pos, value: number }[][] = []
-    const selected = this.selected();
-    const start = add(selected, {row: 1, col: 1});
-    for (let r = 0; r < 2; r++) {
-      const row = []
-      for (let c = 0; c < 2; c++) {
-        const current = add(start, {row: r, col: c});
-        const value = this.matrix()[current.row % 3][current.col % 3];
-        row.push({pos: current, value})
-      }
-      outlined.push(row)
-    }
-    console.log(outlined)
-    return outlined
+    return calculateOutline(this.selected(), this.matrix())
   });
 
   constructor() {
@@ -104,4 +91,19 @@ function equals(a: Pos, b: Pos) {
 
 export function add(a: Pos, b: Pos): Pos {
   return {row: a.row + b.row, col: a.col + b.col};
+}
+
+export function calculateOutline(selected: Pos, matrix: number[][]) {
+  const outlined: { pos: Pos, value: number }[][] = []
+  const start = add(selected, {row: 1, col: 1});
+  for (let r = 0; r < 2; r++) {
+    const row = []
+    for (let c = 0; c < 2; c++) {
+      const current = add(start, {row: r, col: c});
+      const value = matrix[current.row % 3][current.col % 3];
+      row.push({pos: current, value})
+    }
+    outlined.push(row)
+  }
+  return outlined;
 }
