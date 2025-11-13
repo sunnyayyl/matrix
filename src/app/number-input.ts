@@ -3,21 +3,14 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
 import {RoundedBox} from './rounded-box';
-import {
-  CdkDrag,
-  CdkDragDrop,
-  CdkDragEnter,
-  CdkDragExit,
-  CdkDragHandle,
-  CdkDragPlaceholder,
-  CdkDropList
-} from '@angular/cdk/drag-drop';
+import {CdkDrag, CdkDragDrop, CdkDragEnter, CdkDragExit, CdkDragPlaceholder, CdkDropList} from '@angular/cdk/drag-drop';
 import {NgStyle} from '@angular/common';
+import {Pos} from './matrix-grid';
 
 @Component({
   selector: "number-input",
   imports: [
-    MatFormFieldModule, MatInputModule, FormsModule, RoundedBox, CdkDrag, CdkDropList, NgStyle, CdkDragPlaceholder, CdkDragHandle
+    MatFormFieldModule, MatInputModule, FormsModule, RoundedBox, CdkDrag, CdkDropList, NgStyle, CdkDragPlaceholder
   ],
   styles: [`
     .matrix-input input[type=number] {
@@ -50,10 +43,10 @@ import {NgStyle} from '@angular/common';
   `],
   template: `
     <div (cdkDropListEntered)="onDragEnter($event)" (cdkDropListExited)="onDragExit($event)"
-         (cdkDropListDropped)="onDragDrop($event)" cdkDropList [cdkDropListData]="eId()">
+         (cdkDropListDropped)="onDragDrop($event)" cdkDropList [cdkDropListData]="pos()">
       <div class="absolute z-99">
         @if (selected()) {
-          <div [cdkDragBoundary]="dragBoundary()" cdkDrag>
+          <div [cdkDragBoundary]="dragBoundary()" cdkDrag [cdkDragDisabled]="!interactable()">
             <rounded-box size="3.5rem" [colour]="selectedColour()"/>
             <div class="hidden" *cdkDragPlaceholder></div>
           </div>
@@ -77,8 +70,9 @@ export class NumberInput {
   dragBoundary = input.required<string>();
   selectedColour = input("#F5BDE6");
   highlightedColour = input("#F5BDE6");
-  eId = input.required<{ x: number, y: number }>();
-  newSelection = output<{ x: number, y: number }>();
+  pos = input.required<{ row: number, col: number }>();
+  interactable = input(true);
+  newSelection = output<Pos>();
   dragging = false
   draggingStateChanged=output<boolean>();
 
@@ -93,7 +87,7 @@ export class NumberInput {
   onDragDrop<T = NumberInput>(event: CdkDragDrop<T>): void {
     this.setDragging(false);
     let data =  event.container.data;
-    this.newSelection.emit(data as { x: number; y: number; })
+    this.newSelection.emit(data as { row: number; col: number; })
   }
 
   setDragging(b: boolean): void {
