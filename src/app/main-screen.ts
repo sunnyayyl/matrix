@@ -16,7 +16,7 @@ import {Latex} from './latex';
     <div class="flex flex-col items-center justify-center">
       <div class="flex flex-col">
         <label class="font-bold pb-3">
-          Matrix
+          Matrix Determinant
         </label>
         <matrix-grid [(matrix)]="matrix" [interactable]="!playing" [(selected)]="selected"
                      (outlineCalculated)="newOutline($event)" (selectedChange)="newSelectionByUser($event)"
