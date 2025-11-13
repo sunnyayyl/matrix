@@ -53,13 +53,13 @@ export class MainScreen {
 
   async playAnimation(): Promise<void> {
     this.playing = true;
-    await asyncSetTimeout(1000);
+    await asyncSetTimeout(400);
     this.animationProgress = 1
     this.advanceSelectionToNext()
-    await asyncSetTimeout(1000);
+    await asyncSetTimeout(400);
     this.animationProgress = 2
     this.advanceSelectionToNext()
-    await asyncSetTimeout(1000);
+    await asyncSetTimeout(200);
     this.playing = false;
     this.result = this.calculateResult()
     this.animationProgress = 0
